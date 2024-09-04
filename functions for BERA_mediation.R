@@ -1,5 +1,32 @@
 BERA.med<-function(ys, Xs, ms, indx.Ws, no.cont.y, nitr=50000, hyper.parm=list(E.A2=0, V.A2=100, E.A3=0, V.A3=100, E.A4=0, V.A4=100, E.W=0, V.W=10, df.C=0.01, alp.MH=4)){
-## This function fits 
+#### This function fits the BERA-mediation model. The following function arguments should be specified:
+
+### Arguments
+## - ys: An outcome matrix. Continuous and ordinal outcomes should be entered in columns, with continuous outcomes first. The number of ordinal outcomes must be at least two.
+## - Xs: A matrix of correlated predictors. The column corresponding to the intercept term should not be included.
+## - ms: A mediator matrix.
+## - indx.Ws: An indicator matrix specifying which elements of the component weight matrix W are non-zero.
+## - no.cont.y: The number of continuous outcomes in `ys`.
+## - nitr: The number of iterations for the proposed MCMC algorithm. The default value is 50,000.
+## - hyper.parm: Values for the hyperparameters of the set of proposed prior distributions. "E" and "V" before the period (.) denote the mean and variance of a normal prior 
+##	distribution, respectively. The letters following the period correspond to the matrices in the proposed model. The default values are set to make the prior 
+##	distribution non-informative. These are the same values used for Simulation Setting 1, such as `list(E.A2=0, V.A2=100, E.A3=0, V.A3=100, E.A4=0, V.A4=100, E.W=0, V.W=10, df.C=0.01, alp.MH=4)`.
+
+### Value
+## The output of this function is returned as a list with components containing posterior samples for parameters of interest. The component names are as follows:
+## - Ws: Non-zero component weights of W.
+## - A2: Regression coefficients of XW for mediators.
+## - A3: Regression coefficients of XW for outcomes.
+## - A4: Regression coefficients of mediators for outcomes.
+## - Bs2: The product of W and A2.
+## - Bs3: The product of W and A3.
+## - bt02: The intercept vector for mediators.
+## - bt03: The intercept vector for outcomes.
+## - R2: Residual covariance matrix for mediators.
+## - R3: Residual covariance matrix for outcomes.
+## - nu1: Degrees of freedom for a t-distribution for continuous outcomes.
+## - nu2: Degrees of freedom for a t-distribution for mediators.
+ 
 
 
 library(mvtnorm)
@@ -250,6 +277,25 @@ return(list(Ws=post.Ws, A2=post.A2, A3=post.A34[1:K,,], A4=post.A34[-(1:K),,], B
 
 
 BERA.med.summary<-function(BERA.med.out, indx.W, burnin=2000, thinning=10){
+### This function organizes and summarizes the output of BERA.med. The following function arguments must be specified:
+
+### Arguments
+## BERA.med.out: The output from the BERA.med function.
+## indx.W: An indicator matrix specifying which elements of the component weight matrix W are non-zero.
+## burnin: The number of iterations to discard as part of the burn-in period. The default value is 2,000.
+## thinning: The thinning interval for the MCMC samples. The default value is 10.
+
+### Value
+## The output of this function is returned as a list with components that contain the posterior mean and 95% credible intervals for the parameters of interest. The component names are as follows:
+## - Ws: Non-zero component weights of W.
+## - A2: Regression coefficients of XW for mediators.
+## - A3: Regression coefficients of XW for outcomes.
+## - A4: Regression coefficients of mediators for outcomes.
+## - bt02: The intercept vector for mediators.
+## - bt03: The intercept vector for outcomes.
+## - R2: Residual covariance matrix for mediators.
+## - R3: Residual covariance matrix for outcomes.
+	
 S<-dim(BERA.med.out$A2)[2]		# no. of mediators
 Q<-dim(BERA.med.out$A3)[2]		# no. of outcomes
 K<-ncol(indx.W)				# no. of latent variables
