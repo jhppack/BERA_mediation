@@ -305,39 +305,56 @@ post.seq<-seq(burnin,dim(BERA.med.out$A2)[3], by=thinning)
 summary.Ws<-cbind(apply(BERA.med.out$Ws[,,post.seq],c(1,2), mean)[which(indx.W==1)],
 apply(BERA.med.out$Ws[,,post.seq],c(1,2), quantile, prob=c(0.025))[which(indx.W==1)],
 apply(BERA.med.out$Ws[,,post.seq],c(1,2), quantile, prob=c(0.975))[which(indx.W==1)])
+rownames(summary.Ws)<-paste0('W', matrix(1:nrow(indx.W), nrow(indx.W), ncol(indx.W)),
+matrix(1:ncol(indx.W), nrow(indx.W), ncol(indx.W), byrow=T))[indx.W==1]
+colnames(summary.Ws)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 summary.A2<-cbind(apply(BERA.med.out$A2[,,post.seq],c(1,2), mean)[1:(S*K)],
 apply(BERA.med.out$A2[,,post.seq],c(1,2), quantile, prob=c(0.025))[1:(S*K)],
 apply(BERA.med.out$A2[,,post.seq],c(1,2), quantile, prob=c(0.975))[1:(S*K)])
+rownames(summary.A2)<-paste0('A2.', matrix(1:dim(BERA.med.out$A2)[1], dim(BERA.med.out$A2)[1], dim(BERA.med.out$A2)[2]),
+matrix(1:dim(BERA.med.out$A2)[2], dim(BERA.med.out$A2)[1], dim(BERA.med.out$A2)[2], byrow=T))
+colnames(summary.A2)<-c("post.mean", "95%CI.lower", "95%CI.upper")
+
 
 summary.A3<-cbind(apply(BERA.med.out$A3[,,post.seq],c(1,2), mean)[1:(K*Q)],
 apply(BERA.med.out$A3[,,post.seq],c(1,2), quantile, prob=c(0.025))[1:(K*Q)],
 apply(BERA.med.out$A3[,,post.seq],c(1,2), quantile, prob=c(0.975))[1:(K*Q)])
+rownames(summary.A3)<-paste0('A3.', matrix(1:dim(BERA.med.out$A3)[1], dim(BERA.med.out$A3)[1], dim(BERA.med.out$A3)[2]),
+matrix(1:dim(BERA.med.out$A3)[2], dim(BERA.med.out$A3)[1], dim(BERA.med.out$A3)[2], byrow=T))
+colnames(summary.A3)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 summary.A4<-cbind(apply(BERA.med.out$A4[,,post.seq],c(1,2), mean)[1:(S*Q)],
 apply(BERA.med.out$A4[,,post.seq],c(1,2), quantile, prob=c(0.025))[1:(S*Q)],
 apply(BERA.med.out$A4[,,post.seq],c(1,2), quantile, prob=c(0.975))[1:(S*Q)])
+rownames(summary.A4)<-paste0('A4.', matrix(1:dim(BERA.med.out$A4)[1], dim(BERA.med.out$A4)[1], dim(BERA.med.out$A4)[2]),
+matrix(1:dim(BERA.med.out$A4)[2], dim(BERA.med.out$A4)[1], dim(BERA.med.out$A4)[2], byrow=T))
+colnames(summary.A4)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 summary.bt02<-cbind(apply(BERA.med.out$bt02[post.seq,],c(2), mean),
 apply(BERA.med.out$bt02[post.seq,],c(2), quantile, prob=c(0.025)),
 apply(BERA.med.out$bt02[post.seq,],c(2), quantile, prob=c(0.975)))
+rownames(summary.bt02)<-paste0('bt02.', 1:dim(BERA.med.out$bt02)[2])
+colnames(summary.bt02)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 summary.bt03<-cbind(apply(BERA.med.out$bt03[post.seq,],c(2), mean),
 apply(BERA.med.out$bt03[post.seq,],c(2), quantile, prob=c(0.025)),
 apply(BERA.med.out$bt03[post.seq,],c(2), quantile, prob=c(0.975)))
+rownames(summary.bt03)<-paste0('bt03.', 1:dim(BERA.med.out$bt03)[2])
+colnames(summary.bt03)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 summary.R2<-cbind(apply(BERA.med.out$R2[post.seq,],c(2), mean),
 apply(BERA.med.out$R2[post.seq,],c(2), quantile, prob=c(0.025)),
 apply(BERA.med.out$R2[post.seq,],c(2), quantile, prob=c(0.975)))
+rownames(summary.R2)<-matrix(paste0('R2.', matrix(1:S, S, S), matrix(1:S, S, S, byrow=T)), ncol=S)[lower.tri(matrix(1, S, S), diag=T)]
+colnames(summary.R2)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 summary.R3<-cbind(apply(BERA.med.out$R3[post.seq,],c(2), mean),
 apply(BERA.med.out$R3[post.seq,],c(2), quantile, prob=c(0.025)),
 apply(BERA.med.out$R3[post.seq,],c(2), quantile, prob=c(0.975)))
+rownames(summary.R3)<-matrix(paste0('R3.', matrix(1:Q, Q, Q), matrix(1:Q, Q, Q, byrow=T)), ncol=2)[lower.tri(matrix(1, Q, Q), diag=T)]
+colnames(summary.R3)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 return(list(Ws=summary.Ws, A2=summary.A2, A3=summary.A3, A4=summary.A4, bt02=summary.bt02, bt03=summary.bt03,
 	R2=summary.R2, R3=summary.R3))
 }
-
-
-
-
