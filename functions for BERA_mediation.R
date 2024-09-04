@@ -352,7 +352,7 @@ colnames(summary.R2)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 summary.R3<-cbind(apply(BERA.med.out$R3[post.seq,],c(2), mean),
 apply(BERA.med.out$R3[post.seq,],c(2), quantile, prob=c(0.025)),
 apply(BERA.med.out$R3[post.seq,],c(2), quantile, prob=c(0.975)))
-rownames(summary.R3)<-matrix(paste0('R3.', matrix(1:Q, Q, Q), matrix(1:Q, Q, Q, byrow=T)), ncol=2)[lower.tri(matrix(1, Q, Q), diag=T)]
+rownames(summary.R3)<-matrix(paste0('R3.', matrix(1:Q, Q, Q), matrix(1:Q, Q, Q, byrow=T)), ncol=Q)[lower.tri(matrix(1, Q, Q), diag=T)]
 colnames(summary.R3)<-c("post.mean", "95%CI.lower", "95%CI.upper")
 
 return(list(Ws=summary.Ws, A2=summary.A2, A3=summary.A3, A4=summary.A4, bt02=summary.bt02, bt03=summary.bt03,
