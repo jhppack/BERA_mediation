@@ -1,4 +1,7 @@
 rm(list=ls())
+## This R code demonstrates how to fit BERA.med to data generated from Simulation Setting 1. At the end of the code, 
+## BERA.med.summary is used to summarize the posterior samples, providing the posterior mean and a 95% credible interval for the parameters of interest.
+
 library(mvtnorm)
 library(tmvtnorm)
 library(MCMCpack)
@@ -9,7 +12,7 @@ set.seed(101)
 ns<-100
 
 # number of iterations for the MCMC algorithm
-nitr<-10000
+nitr<-30000
 
 ### Specification of the true parameters for the simulation study
 ### please refer to Equation (5) in the manuscript.
